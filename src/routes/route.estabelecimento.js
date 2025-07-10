@@ -5,5 +5,8 @@ import { verifyJWT } from "../config/token.js";
 const routeEstabelecimento = Router();
 
 routeEstabelecimento.get("/v1/estabelecimentos/destaques", verifyJWT, controllerEstabelecimento.GetDestaques);
+routeEstabelecimento.get("/v1/estabelecimentos/favoritos", verifyJWT, controllerEstabelecimento.GetFavoritos);
+routeEstabelecimento.post("/v1/estabelecimentos/favoritos", verifyJWT, controllerEstabelecimento.SetFavorito);
+routeEstabelecimento.delete("/v1/estabelecimentos/favoritos/:id_favorito", verifyJWT, controllerEstabelecimento.DeleteFavorito);
 
 export default routeEstabelecimento;

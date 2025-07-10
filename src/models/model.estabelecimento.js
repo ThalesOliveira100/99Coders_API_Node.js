@@ -17,4 +17,42 @@ const GetDestaques = (cod_cidade, callback) => {
     });
 }
 
-export default {GetDestaques}
+const GetFavoritos = (id_usuario, callback) => {
+    let ssql = `
+        SELECT f.id_favorito, e.id_estabelecimento, e.nome, e.url_logo, e.avaliacao, c.categoria, e.endereco, e.complemento, e.cidade, e.cod_cidade
+        FROM tab_usuario_favorito f
+        JOIN tab_estabelecimento e on (f.id_estabelecimento = e.id_estabelecimento)
+        JOIN tab_categoria c on (c.id_categoria = e.id_categoria)
+        WHERE f.id_usuario = ?
+        ORDER BY e.nome
+    `;
+
+    db.query(ssql, [id_usuario], function(err, result) {
+        callback(err, result);
+    });
+}
+
+const SetFavorito = (id_usuario, id_estabelecimento, callback) => {
+    let ssql = `
+        INSERT INTO tab_usuario_favorito(id_usuario, id_estabelecimento) values(?, ?) 
+    `;
+
+    db.query(ssql, [id_usuario, id_estabelecimento], function(err, result) {
+        callback(err, result);
+    });
+}
+
+const DeleteFavorito = (id_favorito, id_usuario, callback) => {
+    let ssql = `
+        DELETE FROM tab_usuario_favorito
+        WHERE id_favorito = ?
+        AND id_usuario = ?
+    `;
+
+    db.query(ssql, [id_favorito, id_usuario], function(err, result) {
+        callback(err, result);
+    });
+}
+
+
+export default {GetDestaques, GetFavoritos, SetFavorito, DeleteFavorito}
