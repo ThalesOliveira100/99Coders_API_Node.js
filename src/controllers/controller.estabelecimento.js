@@ -1,5 +1,24 @@
 import modelEstabelecimento from "../models/model.estabelecimento.js";
 
+function GetEstabelecimentos(req, res){
+    modelEstabelecimento.GetEstabelecimentos(
+        req.id_usuario, 
+        req.params.id_estabelecimento, 
+        req.query.id_categoria, 
+        req.query.nome, 
+        req.query.cidade, 
+        req.query.id_banner, 
+        req.query.pagina,
+        (err, result) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).json(result[0]);
+            }
+        }
+    );
+}
+
 function GetDestaquesByCidade(req, res){
     modelEstabelecimento.GetDestaquesByCidade(req.query.cod_cidade, (err, result) => {
         if (err) {
@@ -40,4 +59,4 @@ function DeleteEstabelecimentoFavoritoByUser(req, res){
     });
 }
 
-export default {GetDestaquesByCidade, GetFavoritosByUser, SetEstabelecimentoFavoritoByUser, DeleteEstabelecimentoFavoritoByUser};
+export default {GetDestaquesByCidade, GetFavoritosByUser, SetEstabelecimentoFavoritoByUser, DeleteEstabelecimentoFavoritoByUser, GetEstabelecimentos};

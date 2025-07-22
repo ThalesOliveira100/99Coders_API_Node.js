@@ -12,4 +12,9 @@ routeEstabelecimento.get("/v1/estabelecimentos/favoritos", verifyJWT, controller
 routeEstabelecimento.post("/v1/estabelecimentos/favoritos", verifyJWT, controllerEstabelecimento.SetEstabelecimentoFavoritoByUser);
 routeEstabelecimento.delete("/v1/estabelecimentos/favoritos/:id_favorito", verifyJWT, controllerEstabelecimento.DeleteEstabelecimentoFavoritoByUser);
 
+// Estabelecimentos
+routeEstabelecimento.get("/v1/estabelecimentos/:id_estabelecimento", verifyJWT, controllerEstabelecimento.GetEstabelecimentos)
+routeEstabelecimento.get("/v1/estabelecimentos", verifyJWT, controllerEstabelecimento.GetEstabelecimentos);
+
+
 export default routeEstabelecimento;
