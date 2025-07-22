@@ -1,4 +1,4 @@
-import {db} from "../config/database.js";
+import {db, executeQuery} from "../config/database.js";
 
 const GetPedido = (id_usuario, callback) => {
     let ssql = `
@@ -41,53 +41,48 @@ const SetPedido = (id_usuario, jsonPed, callback) => {
                     VALUES(?, ?, ?, ?, ?, ?, current_timestamp(), ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `;
 
-                conn.query(ssql, [id_usuario, jsonPed.id_estabelecimento, jsonPed.id_cupom, jsonPed.vl_taxa_entrega, jsonPed.vl_desconto, 
-                jsonPed.vl_total, jsonPed.status, jsonPed.avaliacao, jsonPed.endereco, jsonPed.complemento, jsonPed.bairro, 
-                jsonPed.cidade, jsonPed.uf, jsonPed.cep, jsonPed.cod_cidade], (err, result) => {
+                // Pedido
+                let pedido = await executeQuery(conn, ssql, [id_usuario, jsonPed.id_estabelecimento, jsonPed.id_cupom, jsonPed.vl_taxa_entrega, 
+                    jsonPed.vl_desconto, jsonPed.vl_total, jsonPed.status, jsonPed.avaliacao, jsonPed.endereco, 
+                    jsonPed.complemento, jsonPed.bairro, jsonPed.cidade, jsonPed.uf, jsonPed.cep, jsonPed.cod_cidade]);
 
-                    // 12:12 -> criar novo método para fazer as operações de forma assincrona.
+                let id_pedido = pedido.insertId;
+                
+                // Itens
+                for (let i = 0; i < jsonPed.itens.length; i++) {
+                    let item = jsonPed.itens[i];
+                    
+                    ssql = `
+                        INSERT INTO tab_pedido_item(id_pedido, id_produto, descricao, qtd, vl_unit, vl_total) 
+                        VALUES(?, ?, ?, ?, ?, ?) 
+                    `;
 
-                    if(err) {
-                        conn.rollback();
-                        callback(err, result);
-                    } else {
+                    let retorno = await executeQuery(conn, ssql, [id_pedido, item.id_produto, item.descricao, item.qtd, item.vl_unit, item.vl_total])
 
-                        const id_usuario = result.insertId; // Devolve o id que foi inserido no campo autoincremento.
+                    let id_pedido_item = retorno.insertId;
 
-                        ssql = "insert into tab_usuario_endereco(id_usuario, endereco, complemento,";
-                        ssql += "bairro, cidade, uf, cep, ind_padrao, cod_cidade) ";
-                        ssql += "values(?, ?, ?, ?, ?, ?, ?, 'S', ?)";
+                    // Detalhes
+                    for (let x = 0; x < item.detalhes.length; x++) {
+                        let detalhe = item.detalhes[x];
 
-                        conn.query(ssql, [
-                            id_usuario, 
-                            dadosUsuario.endereco, 
-                            dadosUsuario.complemento, 
-                            dadosUsuario.bairro,
-                            dadosUsuario.cidade,
-                            dadosUsuario.uf,
-                            dadosUsuario.cep,,
-                            dadosUsuario.ind_padrao,
-                            dadosUsuario.cod_cidade
+                        ssql = `
+                            INSERT INTO tab_pedido_item_detalhe(id_pedido_item, nome, id_item, vl_item, ordem) 
+                            VALUES (?, ?, ?, ?, ?) 
+                        `
 
-                        ], (err, result) => {
-                            if(err){
-                                conn.rollback();
-                                callback(err, result)
-                            } else {
-                                conn.commit();
-                            callback(err, {id_usuario}); // {"id_usuario": 123}
-                            }
+                        await executeQuery(conn, ssql, [id_pedido_item, detalhe.nome, detalhe.id_item, detalhe.vl_item, detalhe.ordem])
+                    }
+                }
 
-                            conn.release();
-                        });
-                        }
-                    });
+                conn.commit();
+                callback(undefined, pedido)
 
             } catch (error) {
-                
+                conn.rollback();
+                callback(error, {})
             }
 
-            
+            conn.release();
         });
     });
 }
