@@ -7,6 +7,7 @@ import routeCidade from "./routes/route.cidade.js";
 import routeCupom from "./routes/route.cupom.js";
 import routeEstabelecimento from "./routes/route.estabelecimento.js";
 import routeProduto from "./routes/route.produto.js";
+import routePedido from "./routes/route.pedido.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(routeCidade);
 app.use(routeCupom);
 app.use(routeEstabelecimento);
 app.use(routeProduto);
+app.use(routePedido);
 
 app.listen(8082, () => {
     console.log("Servidor iniciado na porta 8082");
