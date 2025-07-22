@@ -29,4 +29,4 @@ db.getConnection((err, conn) => {
     }
 });
 
-export {db};
+export {db, executeQuery};
