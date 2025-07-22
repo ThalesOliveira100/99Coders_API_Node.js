@@ -38,13 +38,13 @@ const SetPedido = (id_usuario, jsonPed, callback) => {
                 let ssql = `
                     INSERT INTO tab_pedido(id_usuario, id_estabelecimento, id_cupom, vl_taxa_entrega, vl_desconto, 
                     vl_total, dt_pedido, status, avaliacao, endereco, complemento, bairro, cidade, uf, cep, cod_cidade) 
-                    VALUES(?, ?, ?, ?, ?, ?, current_timestamp(), ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    VALUES(?, ?, ?, ?, ?, ?, current_timestamp(), 'A', ?, ?, ?, ?, ?, ?, ?, ?)
                 `;
 
                 // Pedido
                 let pedido = await executeQuery(conn, ssql, [id_usuario, jsonPed.id_estabelecimento, jsonPed.id_cupom, jsonPed.vl_taxa_entrega, 
-                    jsonPed.vl_desconto, jsonPed.vl_total, jsonPed.status, jsonPed.avaliacao, jsonPed.endereco, 
-                    jsonPed.complemento, jsonPed.bairro, jsonPed.cidade, jsonPed.uf, jsonPed.cep, jsonPed.cod_cidade]);
+                    jsonPed.vl_desconto, jsonPed.vl_total, jsonPed.avaliacao, jsonPed.endereco, jsonPed.complemento, jsonPed.bairro, jsonPed.cidade, 
+                    jsonPed.uf, jsonPed.cep, jsonPed.cod_cidade]);
 
                 let id_pedido = pedido.insertId;
                 
