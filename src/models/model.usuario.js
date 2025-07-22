@@ -84,10 +84,12 @@ const GetEnderecos = (id_usuario, id_endereco, cod_cidade, callback) => {
     let filtro = [];
 
     let ssql = `
-        SELECT id_endereco, id_usuario, endereco, complemento, bairro, cidade, uf, cep, ind_padrao, cod_cidade 
+        SELECT id_endereco, id_usuario, endereco, complemento, bairro, cidade, uf, cep, coalesce(ind_padrao, 'N'), cod_cidade 
         FROM tab_usuario_endereco 
         WHERE id_usuario = ? 
     `;
+
+    // Coalesce é uma função que verifica se o campo está NULL, e se estiver, passa um valor padrão.
 
     filtro.push(id_usuario);
 
