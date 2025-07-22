@@ -1,7 +1,7 @@
 import modelEstabelecimento from "../models/model.estabelecimento.js";
 
-function GetDestaques(req, res){
-    modelEstabelecimento.GetDestaques(req.query.cod_cidade, (err, result) => {
+function GetDestaquesByCidade(req, res){
+    modelEstabelecimento.GetDestaquesByCidade(req.query.cod_cidade, (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -10,8 +10,8 @@ function GetDestaques(req, res){
     });
 }
 
-function GetFavoritos(req, res){
-    modelEstabelecimento.GetFavoritos(req.id_usuario, (err, result) => {
+function GetFavoritosByUser(req, res){
+    modelEstabelecimento.GetFavoritosByUser(req.id_usuario, (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -20,8 +20,8 @@ function GetFavoritos(req, res){
     });
 }
 
-function SetFavorito(req, res) {
-    modelEstabelecimento.SetFavorito(req.id_usuario, req.body.id_estabelecimento, (err, result) => {
+function SetEstabelecimentoFavoritoByUser(req, res) {
+    modelEstabelecimento.SetEstabelecimentoFavoritoByUser(req.id_usuario, req.body.id_estabelecimento, (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -30,8 +30,8 @@ function SetFavorito(req, res) {
     });
 }
 
-function DeleteFavorito(req, res){
-    modelEstabelecimento.DeleteFavorito(req.params.id_favorito, req.id_usuario, (err, result) => {
+function DeleteEstabelecimentoFavoritoByUser(req, res){
+    modelEstabelecimento.DeleteEstabelecimentoFavoritoByUser(req.params.id_favorito, req.id_usuario, (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -40,4 +40,4 @@ function DeleteFavorito(req, res){
     });
 }
 
-export default {GetDestaques, GetFavoritos, SetFavorito, DeleteFavorito};
+export default {GetDestaquesByCidade, GetFavoritosByUser, SetEstabelecimentoFavoritoByUser, DeleteEstabelecimentoFavoritoByUser};

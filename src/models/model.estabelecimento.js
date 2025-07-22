@@ -1,6 +1,6 @@
 import {db} from "../config/database.js";
 
-const GetDestaques = (cod_cidade, callback) => {
+const GetDestaquesByCidade = (cod_cidade, callback) => {
     let ssql = `
         SELECT d.descricao, e.id_estabelecimento, e.nome, e.url_logo, e.avaliacao, c.categoria
         FROM tab_destaque d
@@ -17,7 +17,7 @@ const GetDestaques = (cod_cidade, callback) => {
     });
 }
 
-const GetFavoritos = (id_usuario, callback) => {
+const GetFavoritosByUser = (id_usuario, callback) => {
     let ssql = `
         SELECT f.id_favorito, e.id_estabelecimento, e.nome, e.url_logo, e.avaliacao, c.categoria, e.endereco, e.complemento, e.cidade, e.cod_cidade
         FROM tab_usuario_favorito f
@@ -32,7 +32,7 @@ const GetFavoritos = (id_usuario, callback) => {
     });
 }
 
-const SetFavorito = (id_usuario, id_estabelecimento, callback) => {
+const SetEstabelecimentoFavoritoByUser = (id_usuario, id_estabelecimento, callback) => {
     let ssql = `
         INSERT INTO tab_usuario_favorito(id_usuario, id_estabelecimento) values(?, ?) 
     `;
@@ -42,7 +42,7 @@ const SetFavorito = (id_usuario, id_estabelecimento, callback) => {
     });
 }
 
-const DeleteFavorito = (id_favorito, id_usuario, callback) => {
+const DeleteEstabelecimentoFavoritoByUser = (id_favorito, id_usuario, callback) => {
     let ssql = `
         DELETE FROM tab_usuario_favorito
         WHERE id_favorito = ?
@@ -55,4 +55,4 @@ const DeleteFavorito = (id_favorito, id_usuario, callback) => {
 }
 
 
-export default {GetDestaques, GetFavoritos, SetFavorito, DeleteFavorito}
+export default {GetDestaquesByCidade, GetFavoritosByUser, SetEstabelecimentoFavoritoByUser, DeleteEstabelecimentoFavoritoByUser}
