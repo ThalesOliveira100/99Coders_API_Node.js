@@ -9,9 +9,9 @@ const db = mysql.createPool({
     database: "delivery_mais__99node",
 });
 
-async function executeQuery(connection, query, parameters) {
+async function executeQuery(connection, ssql, parameters) {
     return new Promise((resolve, reject) => {
-        connection.query(query, parameters, (err, result) => {
+        connection.query(ssql, parameters, (err, result) => {
             if (err) {
                 return reject(err);
             } else {
