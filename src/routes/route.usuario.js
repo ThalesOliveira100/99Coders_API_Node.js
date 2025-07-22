@@ -13,7 +13,7 @@ routeUsuario.patch("/v1/usuarios", verifyJWT, controllerUsuario.EditUserByID);
 // Endereços
 routeUsuario.post("/v1/usuarios/enderecos", verifyJWT, controllerUsuario.SetEndereco);
 routeUsuario.get("/v1/usuarios/enderecos", verifyJWT, controllerUsuario.GetEnderecos);
-routeUsuario.get("/v1/usuarios/enderecos/:id_endereco", verifyJWT, controllerUsuario.GetEndereco);
+routeUsuario.get("/v1/usuarios/enderecos/:id_endereco", verifyJWT, controllerUsuario.GetEnderecos);
 routeUsuario.put("/v1/usuarios/enderecos/:id_endereco", verifyJWT, controllerUsuario.AlterEndereco);
 routeUsuario.put("/v1/usuarios/enderecos/padrao/:id_endereco", verifyJWT, controllerUsuario.EnderecoPadrao)
 routeUsuario.delete("/v1/usuarios/enderecos/:id_endereco", verifyJWT, controllerUsuario.DeleteEndereco);
