@@ -5,7 +5,7 @@ function GetPedido(req, res){
         if (err) {
             res.status(500).send(err);
         } else {
-            res.status(200).json(result[0]);
+            res.status(200).json(result);
         }
     });
 }
@@ -15,7 +15,7 @@ function AvaliarPedido(req, res){
         if (err) {
             res.status(500).send(err);
         } else {
-            res.status(200).json(result[0]);
+            res.status(200).json({id_pedido: req.params.id_pedido});
         }
     });
 }
