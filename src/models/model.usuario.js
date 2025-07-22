@@ -216,4 +216,14 @@ const EnderecoPadrao = (id_endereco, id_usuario, callback) => {
     });
 }
 
-export default {Login, Register, GetUserById, EditUserByID, GetEnderecos, SetEndereco, AlterEndereco, DeleteEndereco, EnderecoPadrao};
+export default {
+    Login, 
+    Register, 
+    GetUserById, 
+    EditUserByID, 
+    GetEnderecos, 
+    SetEndereco, 
+    AlterEndereco, 
+    DeleteEndereco, 
+    EnderecoPadrao
+};
